@@ -1,3 +1,5 @@
+import './test.scss';
+
 
 function hello() {
     let root = document.getElementById('root')
