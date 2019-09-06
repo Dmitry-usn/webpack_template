@@ -6,7 +6,7 @@ const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     mode: 'development',
-    entry: path.resolve(__dirname, 'src', 'app.js'),
+    entry: path.resolve(__dirname, 'src', 'application.jsx'),
     output: {
         path: path.resolve(__dirname, 'public'),
         filename: 'script.bundle.js'
@@ -18,7 +18,10 @@ module.exports = {
             },
             {
                 test: /\.(png|svg|jpe?g|gif)$/i,
-                use: ['file-loader']
+                loader: 'file-loader',
+                options: {
+                    name: './img/[name].[ext]'
+                }
             },
             {
                 test: /\.s[ac]ss$/i,
@@ -28,6 +31,16 @@ module.exports = {
                     'sass-loader',
                     'postcss-loader'
                 ],
+            },
+            {
+                test: /\.js|jsx$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react']
+                    }
+                }
             },
         ]
     },
@@ -40,5 +53,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: devMode ? '[name].css' : '[name].[hash].css'
         })
-    ]
+    ],
+    resolve: {
+        extensions: [ '.js', '.jsx' ]
+    },
 };

@@ -8,11 +8,20 @@
     "start": "webpack-dev-server --colors --hot --progress --open",
     "build": "webpack"
   },
+  "browserslist": "last 2 versions",
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "@babel/preset-react": "^7.0.0",
     "autoprefixer": "^9.6.1",
+    "babel-loader": "^8.0.6",
     "css-loader": "^3.2.0",
     "file-loader": "4.2.0",
     "html-webpack-plugin": "3.2.0",
