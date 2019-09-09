@@ -1,11 +1,13 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
-    mode: 'development',
+    // mode: 'development',
     entry: path.resolve(__dirname, 'src', 'application.jsx'),
     output: {
         path: path.resolve(__dirname, 'public'),
@@ -24,13 +26,18 @@ module.exports = {
                 }
             },
             {
-                test: /\.s[ac]ss$/i,
+                test: /\.(sa|sc|c)ss$/,
                 use: [
-                    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: process.env.NODE_ENV === 'production'
+                        }
+                    },
                     'css-loader',
+                    'postcss-loader',
                     'sass-loader',
-                    'postcss-loader'
-                ],
+                ]
             },
             {
                 test: /\.js|jsx$/,
@@ -51,10 +58,26 @@ module.exports = {
             title: 'My App',
         }),
         new MiniCssExtractPlugin({
-            filename: devMode ? '[name].css' : '[name].[hash].css'
+            filename: devMode ? '[name].css' : '[name].[hash].css',
+            chunkFilename: devMode ? '[id].css' : '[id].[hash].css'
         })
     ],
+    optimization: {
+        minimizer: [
+            new OptimizeCSSAssetsPlugin(),
+            new UglifyJsPlugin({
+                sourceMap: true
+            })
+        ]
+    },
     resolve: {
         extensions: [ '.js', '.jsx' ]
     },
+    devServer: {
+        contentBase: path.join(__dirname, 'src'),
+        port: 9000,
+        compress: true,
+        hot: true,
+        open: true
+    }
 };
