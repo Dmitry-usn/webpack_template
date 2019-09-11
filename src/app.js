@@ -1,9 +1,8 @@
 import './test.scss';
-import User from './main';
 
 
 const hello = () => {
-    let root = document.getElementById('root')
+    const root = document.getElementById('root');
     root.innerHTML = 'Hello World!';
     console.log('hello user');
 };
@@ -11,7 +10,7 @@ const hello = () => {
 hello();
 
 
-const deep_deep_array = [
+const deepDeepArray = [
     '≥0 — первый уровень',
     [
       '≥1 — второй уровень',
@@ -27,7 +26,4 @@ const deep_deep_array = [
     ]
   ]
 
- console.log(deep_deep_array.flat());
-
-const Vasiliy = new User('Vasiliy', 33);
-Vasiliy.sayName();
+console.log(deepDeepArray.flat());
